@@ -1,68 +1,43 @@
 package com.belajarspringboot.belajardarinol.controller;
 
 import com.belajarspringboot.belajardarinol.model.Hero;
+import com.belajarspringboot.belajardarinol.service.HeroService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/hero")
 public class HerroController {
-    public List<Hero> heros = new ArrayList<>();
-    public Integer counter=1;
+
+    @Autowired
+    HeroService heroService;
 
     @GetMapping("/daftar-hero")
     public List<Hero> daftarHero(){
-
-//        heros.add(new Hero(1, "persib", 100));
-//        heros.add(new Hero(2,"persija", 90));
-//        heros.add(new Hero(3,"persija", 80));
-        return  heros ;
+        return heroService.daftarHero();
     }
 
     @PostMapping("/addhero")
-    public Hero tambahdatahero(@RequestBody Hero request){
-        request.setId(counter);
-        heros.add(request);
-        counter++;
-        return request;
+    public Hero tambahHero(@RequestBody Hero request){
+        return  heroService.tambahHero(request);
     }
 
     @PutMapping("/ubah/{id}")
     public Boolean updateHero(@RequestBody Hero request, @PathVariable Integer id){
-        final Optional<Hero> result = heros.stream().filter(hero -> hero.getId() == id).findFirst();
-        if( result.isPresent()){
-            //jika ada/ketemu lakukan upodate
-            result.get().setName(request.getName());
-            result.get().setDamage(request.getDamage());
-            return  true;
-        }else{
-            return false;
-        }
+       return  heroService.updateHero(request, id);
 
     }
     @DeleteMapping("/hapus/{id}")
     public Boolean deleteHero(@PathVariable Integer id){
-        final Optional<Hero> result = heros.stream().filter(hero -> hero.getId() == id).findFirst();
-        if (result.isPresent()){
-            heros.remove(result.get());
-            return  true;
-        }else{
-            return  false;
-        }
+      return  heroService.deleteHero(id);
     }
 
     @PatchMapping ("/ubah-status/{id}")
     public  Boolean ubahStatus(@PathVariable Integer id , @RequestParam Boolean isNewHero){
-        final Optional<Hero> result = heros.stream().filter(hero -> hero.getId() == id).findFirst();
-        if (result.isPresent()){
-           result.get().setNewHero(isNewHero);
-            return true;
-        }else{
-            return  false;
-        }
+     return  heroService.ubahStatus(id, isNewHero);
     }
 
 }
