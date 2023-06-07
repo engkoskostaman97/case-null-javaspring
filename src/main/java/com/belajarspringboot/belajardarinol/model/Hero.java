@@ -8,10 +8,13 @@ public class Hero {
 
     private  int damage;
 
-    public Hero(int id, String name, int damage) {
+    private Boolean isNewHero;
+
+    public Hero(int id, String name, int damage, Boolean isNewHero) {
         this.id = id;
         this.name = name;
         this.damage = damage;
+        this.isNewHero= isNewHero;
     }
 
     public Hero() {
@@ -39,5 +42,13 @@ public class Hero {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public Boolean getNewHero() {
+        return isNewHero;
+    }
+
+    public void setNewHero(Boolean newHero) {
+        isNewHero = newHero;
     }
 }

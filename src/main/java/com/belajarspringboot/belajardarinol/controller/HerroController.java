@@ -54,4 +54,15 @@ public class HerroController {
         }
     }
 
+    @PatchMapping ("/ubah-status/{id}")
+    public  Boolean ubahStatus(@PathVariable Integer id , @RequestParam Boolean isNewHero){
+        final Optional<Hero> result = heros.stream().filter(hero -> hero.getId() == id).findFirst();
+        if (result.isPresent()){
+           result.get().setNewHero(isNewHero);
+            return true;
+        }else{
+            return  false;
+        }
+    }
+
 }
